@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  election-service:
+    container_name: players-service
+    image: players-service
+    build: ./
+    ports:
+      - "9080:9090"
+    depends_on:
+      - jenkins-db
+  jenkins-db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=jenkins
+      - POSTGRES_USER=election
+      - POSTGRES_PASSWORD=election
