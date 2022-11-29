@@ -21,5 +21,7 @@ public class Player {
 
     @Column(name = "device_info")
     private String nickname;
+    
+    // Test webhook
 
 }
