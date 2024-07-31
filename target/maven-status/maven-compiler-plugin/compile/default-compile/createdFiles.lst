@@ -5,9 +5,7 @@ eg\gov\moj\election\service\PlayerService.class
 eg\gov\moj\election\rest\validation\NestedValidation.class
 eg\gov\moj\election\utils\OtpRandomGenerator.class
 eg\gov\moj\election\rest\validation\UpdateValidation.class
-eg\gov\moj\election\config\SpringDocsConfig.class
 eg\gov\moj\election\rest\dto\common\PaginatedResultDto.class
-eg\gov\moj\election\ElectionsServiceApplication.class
 eg\gov\moj\election\rest\entitymapper\common\PaginationMapperImpl.class
 eg\gov\moj\election\rest\entitymapper\common\JPAEntityMapper.class
 eg\gov\moj\election\entity\Player.class
@@ -17,4 +15,5 @@ eg\gov\moj\election\rest\handler\PlayerHandler.class
 eg\gov\moj\election\repository\PlayerRepository.class
 eg\gov\moj\election\rest\entitymapper\common\PaginationMapper.class
 eg\gov\moj\election\rest\validation\InsertValidation.class
+eg\gov\moj\election\DevOpsDemoApplication.class
 eg\gov\moj\election\rest\controller\admin\PlayerController.class

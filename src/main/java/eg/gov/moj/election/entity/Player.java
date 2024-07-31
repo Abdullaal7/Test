@@ -7,8 +7,6 @@ import javax.persistence.*;
 @Data
 @Entity
 public class Player {
-    
-    // Players Attripute 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +17,7 @@ public class Player {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "device_info")
+    @Column(name = "nick_name")
     private String nickname;
   
 

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>eg.gov.moj</groupId>
-    <artifactId>elections-service</artifactId>
+    <artifactId>test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>elections-service</name>
+    <name>test</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -67,12 +67,6 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${org.springdoc.version}</version>
         </dependency>
-             
-<!--         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
-            <version>${org.springdoc.version}</version>
-        </dependency> -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -84,13 +78,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-             
-<!--         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency> -->
-             
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -108,21 +96,22 @@
     </dependencies>
 
     <build>
-        <finalName>elections-service</finalName>
+        <finalName>Devops-test</finalName>
         <plugins>
+
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-                <dependencies>
-                    <!-- The following enables the "thin jar" deployment option. -->
-                    <dependency>
-                        <groupId>org.springframework.boot.experimental</groupId>
-                        <artifactId>spring-boot-thin-layout</artifactId>
-                        <version>${org.springframework.boot.experimental.version}</version>
-                    </dependency>
-                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -145,6 +134,8 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </build>
 

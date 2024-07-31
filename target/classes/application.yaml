@@ -1,13 +1,13 @@
 server:
-  port: 9090
+  port: 8090
 spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/jenkins
-    username: election
-    password: election
+    url: jdbc:postgresql://localhost:5433/test
+    username: postgres
+    password: 123
 
   jpa:
     hibernate:
@@ -16,14 +16,3 @@ spring:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: true
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: INFO
-        type: INFO
-
-app:
-  allowed-origins:
-    http://41.38.83.137:8060,http://localhost:4200
