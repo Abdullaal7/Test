@@ -5,7 +5,7 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/test
+    url: jdbc:postgresql://localhost:5432/test
     username: postgres
     password: 123
 
