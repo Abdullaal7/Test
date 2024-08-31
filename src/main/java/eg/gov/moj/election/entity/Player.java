@@ -19,6 +19,6 @@ public class Player {
 
     @Column(name = "nick_name")
     private String nickname;
-  
 
+    // test webhook
 }
