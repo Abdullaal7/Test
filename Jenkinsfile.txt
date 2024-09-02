@@ -1,0 +1,45 @@
+pipeline {
+    agent { label 'test_con' }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Informatique-Dev/demos.git', branch: 'main'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('C:\\home\\workspace\\RMS-UI\\retail-managment-system\\rms-ui') {
+                    bat 'npm install -f'
+                }
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                dir('C:\\home\\workspace\\RMS-UI\\retail-managment-system\\rms-ui') {
+                    bat 'npm run ng -- build'
+                }
+            }
+        }
+
+        stage('Backup Existing Application') {
+            steps {
+                script {
+                    def dateStamp = new Date().format("yyyyMMdd_HHmmss")
+                    bat "move C:\\nginx-1.26.2\\rms-ui C:\\frontBackup"
+                    bat "ren C:\\frontBackup\\rms-ui \"rms-ui_${dateStamp}\""
+                }
+            }
+        }
+
+        stage('Deploy New Build') {
+            steps {
+                script {
+                    bat 'move C:\\home\\workspace\\RMS-UI\\retail-managment-system\\rms-ui\\dist\\rms-ui C:\\nginx-1.26.2'
+                }
+            }
+        }
+    }
+}
