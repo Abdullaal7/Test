@@ -17,15 +17,10 @@ public class PlayerController {
 
     @GetMapping
     @Operation(summary = "get All players")
-    public ResponseEntity getAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                  @RequestParam(value = "size", defaultValue = "20") Integer size) {
         return playerHandler.getAll(page, size);
     }
 
-    @GetMapping
-    @Operation(summary = "get All players")
-    public ResponseEntity getAllPlayers(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                 @RequestParam(value = "size", defaultValue = "20") Integer size) {
-        return playerHandler.getAll(page, size);
+
     }
-}
