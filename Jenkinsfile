@@ -47,4 +47,17 @@ pipeline {
             }
         }
     }
+
+     post {
+        always {
+            echo 'Pipeline execution completed!'
+        }
+        success {
+            echo 'Application deployed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs for details.'
+        }
+    }
+    
 }
