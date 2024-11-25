@@ -21,7 +21,8 @@ pipeline {
                 script {
                     // Execute SonarQube Scanner
                     withSonarQubeEnv('SonarQube') {
-                        bat 'mvn sonar:sonar -Dsonar.projectKey=TestB -Dsonar.host.url=http://localhost:9000 -Dsonar.login=<TOKEN>'
+                        bat 'mvn clean verify sonar:sonar'
+                        
                     }
                 }
             }
