@@ -25,6 +25,12 @@
         <org.apache.maven.plugins.version>3.6.0</org.apache.maven.plugins.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <sonar.junit.reportPaths>target/test-classes</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.login>squ_28e45ef1085b42e73a8bec4b6e49eced64540d00</sonar.login>
+        <sonar.projectKey>test-service</sonar.projectKey>
     </properties>
 
     <dependencies>
@@ -134,6 +140,38 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+                <configuration>
+                    <sonar.host.url>${sonar.host.url}</sonar.host.url>
+                    <sonar.login>${sonar.login}</sonar.login>
+                    <sonar.projectKey>${sonar.projectKey}</sonar.projectKey>
+                </configuration>
+            </plugin>
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.7</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <id>report</id>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
 
 
         </plugins>
