@@ -2,8 +2,11 @@ pipeline {
     agent { label 'test_con' }
 
     environment {
-        SLACK_CHANNEL = '#jenkins-status'  // Set your Slack channel
+        DOCKER_IMAGE = 'abdullaal77/player-app' // Your Docker image name
+        DOCKER_TAG = 'latest' // Docker image tag
+        SLACK_CHANNEL = '#jenkins-status' // Set your Slack channel
         SLACK_CREDENTIALS_ID = 'slack_token' // Your Slack credentials ID
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials' // Your Docker credentials ID (stored in Jenkins credentials store)
     }
 
     stages {
@@ -43,11 +46,15 @@ pipeline {
         stage('Build and Push with Docker Compose') {
             steps {
                 script {
-                    def imageName = 'abdullaal77/player-app:latest'
-                    bat "docker-compose build"
-                    bat "docker tag testb-player ${imageName}"
-                    bat "docker login -u abdullaal77 -p #\$AaPwD56"
-                    bat "docker push ${imageName}"
+                    def imageName = "${DOCKER_IMAGE}:${DOCKER_TAG}"
+
+                    // Using Docker credentials securely
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        bat "docker-compose build"
+                        bat "docker tag testb-player ${imageName}"
+                        bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                        bat "docker push ${imageName}"
+                    }
                 }
             }
         }
@@ -64,17 +71,21 @@ pipeline {
 
     post {
         always {
-            // Always notify Slack about pipeline completion
+            // Publish JaCoCo code coverage report
+			// Always notify Slack about pipeline completion
             slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
             jacoco()
+            echo 'Pipeline execution completed!'
         }
         success {
             // Notify Slack on success
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            slackSend(channel: SLACK_CHANNEL, message: "Application deployed successfully! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            echo 'Application deployed successfully! :tada:'
         }
         failure {
             // Notify Slack on failure
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs for details. :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            echo 'Pipeline failed. Check the logs for details.'
         }
     }
 }
