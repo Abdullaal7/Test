@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Notify Slack that the pipeline has started
-                    slackSend(channel: SLACK_CHANNEL, message: "Pipeline has started! :rocket:", credentialsId: SLACK_CREDENTIALS_ID)
+                    slackSend(channel: SLACK_CHANNEL, message: "Pipeline has started! :rocket:", tokenCredentialId: SLACK_CREDENTIALS_ID)
                 }
             }
         }
