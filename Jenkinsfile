@@ -72,22 +72,17 @@ pipeline {
 
     post {
         always {
-            // Publish JaCoCo code coverage report
-			// Always notify Slack about pipeline completion
+            // Always notify Slack about pipeline completion
             slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
-            jacoco()
+            // Clean up unused Docker images, containers, networks, etc.
+            bat "docker system prune -f"
             echo 'Pipeline execution completed!'
         }
         success {
-            // Notify Slack on success
-            slackSend(channel: SLACK_CHANNEL, message: "Application deployed successfully! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
-            echo 'Application deployed successfully! :tada:'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
         failure {
-            // Notify Slack on failure
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs for details. :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
-            echo 'Pipeline failed. Check the logs for details.'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
     }
 }
-
