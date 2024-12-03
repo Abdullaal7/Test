@@ -4,9 +4,10 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'abdullaal77/player-app' // Your Docker image name
         DOCKER_TAG = 'latest' // Docker image tag
+        DOCKER_USER = 'abdullaal77' // Docker username
+        DOCKER_PASS = '#\$AaPwD56' // Docker password (escaped special characters if needed)
         SLACK_CHANNEL = '#jenkins-status' // Set your Slack channel
         SLACK_CREDENTIALS_ID = 'slack_token' // Your Slack credentials ID
-        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials' // Your Docker credentials ID (stored in Jenkins credentials store)
     }
 
     stages {
@@ -47,14 +48,14 @@ pipeline {
             steps {
                 script {
                     def imageName = "${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    bat "docker-compose build"
+                    bat "docker tag testb-player ${imageName}"
 
-                    // Using Docker credentials securely
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        bat "docker-compose build"
-                        bat "docker tag testb-player ${imageName}"
-                        bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                        bat "docker push ${imageName}"
-                    }
+                    // Login to Docker Hub using environment variables for username and password
+                    bat "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+
+                    // Push the Docker image to the registry
+                    bat "docker push ${imageName}"
                 }
             }
         }
@@ -89,3 +90,4 @@ pipeline {
         }
     }
 }
+
