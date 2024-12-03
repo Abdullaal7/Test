@@ -65,19 +65,16 @@ pipeline {
     post {
         always {
             // Always notify Slack about pipeline completion
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", credentialsId: SLACK_CREDENTIALS_ID)
-            echo 'Pipeline execution completed!'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
             jacoco()
         }
         success {
             // Notify Slack on success
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", credentialsId: SLACK_CREDENTIALS_ID)
-            echo 'Pipeline succeeded! :tada:'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
         failure {
             // Notify Slack on failure
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", credentialsId: SLACK_CREDENTIALS_ID)
-            echo 'Pipeline failed. Check the logs! :x:'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
     }
 }
