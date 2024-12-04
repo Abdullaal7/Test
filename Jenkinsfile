@@ -83,6 +83,7 @@ pipeline {
             slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
             // Clean up unused Docker images, containers, networks, etc.
             bat "docker system prune -f"
+			jacoco()
             echo 'Pipeline execution completed!'
         }
         success {
