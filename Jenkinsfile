@@ -20,16 +20,18 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
-            steps {
-                // Clone the repository using SSH (SSH URL and SSH credentials)
-                git(
-                    url: 'git@github.com:abdullaal7/TestB.git', 
-                    branch: 'main',
-                    credentialsId: 'test_Rebo' // Use the SSH credentials ID for accessing GitHub
-                )
-            }
-        }
+stage('Checkout') {
+    steps {
+        // Clone the repository using SSH (SSH URL and SSH credentials)
+        git(
+            url: 'git@github.com:abdullaal7/TestB.git',
+            branch: 'main',
+            credentialsId: 'test_Rebo', // The SSH credentials ID for accessing GitHub
+            changelog: false,
+            poll: false
+        )
+    }
+}
 
         stage('Build Application') {
             steps {
