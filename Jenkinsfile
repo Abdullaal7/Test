@@ -20,19 +20,14 @@ pipeline {
             }
         }
 
-stage('Checkout') {
+        stage('Checkout') {
             steps {
-                script {
-                    // Ensure SSH agent is available for the 'git' command
-                    sshagent(credentials: ['test_Rebo']) {
-                        // Clone the repository using SSH
-                        git(
-                            url: 'git@github.com:abdullaal7/TestB.git',
-                            branch: 'main',
-                            credentialsId: 'test_Rebo' // Use the SSH credentials ID
-                        )
-                    }
-                }
+                // Clone the repository using SSH (use the SSH URL and specify credentials)
+                git(
+                    url: 'git@github.com:abdullaal7/TestB.git', 
+                    branch: 'main',
+                    credentialsId: 'test_Rebo' // Use the SSH credentials ID you added to Jenkins
+                )
             }
         }
 
