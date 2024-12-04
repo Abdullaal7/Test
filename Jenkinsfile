@@ -24,10 +24,11 @@ pipeline {
             steps {
                 // Clone the repository using SSH (use the SSH URL and specify credentials)
                 git(
-                    url: 'git@github.com:abdullaal7/TestB.git', 
+                    url: 'git@github.com:abdullaal7/TestB.git',
                     branch: 'main',
-                    credentialsId: 'test_Rebo' // Use the SSH credentials ID you added to Jenkins
+                    credentialsId: 'test_Rebo'
                 )
+
             }
         }
 
