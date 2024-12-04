@@ -22,7 +22,12 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/abdullaal7/TestB.git', branch: 'main'
+                // Clone the repository using SSH (use the SSH URL and specify credentials)
+                git(
+                    url: 'git@github.com:abdullaal7/TestB.git', 
+                    branch: 'main',
+                    credentialsId: 'test_Rebo' // Use the SSH credentials ID you added to Jenkins
+                )
             }
         }
 
@@ -60,29 +65,18 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Compose') {
-            steps {
-                script {
-                    bat "docker-compose pull"
-                    bat "docker-compose up -d"
-                }
-            }
-        }
+        // Add additional deployment or other stages here as needed
     }
 
     post {
         always {
-            // Always notify Slack about pipeline completion
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
-            // Clean up unused Docker images, containers, networks, etc.
-            bat "docker system prune -f"
             echo 'Pipeline execution completed!'
         }
         success {
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            echo 'Application deployed successfully!'
         }
         failure {
-            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            echo 'Pipeline failed. Check the logs for details.'
         }
     }
 }
