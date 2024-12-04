@@ -21,17 +21,20 @@ pipeline {
         }
 
 stage('Checkout') {
-    steps {
-        // Clone the repository using SSH (SSH URL and SSH credentials)
-        git(
-            url: 'git@github.com:abdullaal7/TestB.git',
-            branch: 'main',
-            credentialsId: 'test_Rebo', // The SSH credentials ID for accessing GitHub
-            changelog: false,
-            poll: false
-        )
-    }
-}
+            steps {
+                script {
+                    // Ensure SSH agent is available for the 'git' command
+                    sshagent(credentials: ['test_Rebo']) {
+                        // Clone the repository using SSH
+                        git(
+                            url: 'git@github.com:abdullaal7/TestB.git',
+                            branch: 'main',
+                            credentialsId: 'test_Rebo' // Use the SSH credentials ID
+                        )
+                    }
+                }
+            }
+        }
 
         stage('Build Application') {
             steps {
