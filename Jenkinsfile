@@ -1,13 +1,13 @@
 pipeline {
-    agent { label 'test_con' }
+    agent { label 'test_con' } // Specify your Jenkins agent label
 
     environment {
-        DOCKER_IMAGE = 'abdullaal77/player-app' // Your Docker image name
+        DOCKER_IMAGE = 'abdullaal77/player-app' // Docker image name
         DOCKER_TAG = 'latest' // Docker image tag
         DOCKER_USER = 'abdullaal77' // Docker username
         DOCKER_PASS = '#\$AaPwD56' // Docker password (escaped special characters if needed)
-        SLACK_CHANNEL = '#jenkins-status' // Set your Slack channel
-        SLACK_CREDENTIALS_ID = 'slack_token' // Your Slack credentials ID
+        SLACK_CHANNEL = '#jenkins-status' // Slack channel for notifications
+        SLACK_CREDENTIALS_ID = 'slack_token' // Slack credentials ID for notifications
     }
 
     stages {
@@ -22,11 +22,11 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                // Clone the repository using SSH (use the SSH URL and specify credentials)
+                // Clone the repository using SSH (SSH URL and SSH credentials)
                 git(
                     url: 'git@github.com:abdullaal7/TestB.git', 
                     branch: 'main',
-                    credentialsId: 'test_Rebo' // Use the SSH credentials ID you added to Jenkins
+                    credentialsId: 'test_Rebo' // Use the SSH credentials ID for accessing GitHub
                 )
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 script {
-                    bat 'mvn clean package'
+                    bat 'mvn clean package' // Use Maven to build the application
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        bat 'mvn clean verify sonar:sonar'
+                        bat 'mvn clean verify sonar:sonar' // Run SonarQube analysis
                     }
                 }
             }
@@ -53,8 +53,8 @@ pipeline {
             steps {
                 script {
                     def imageName = "${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    bat "docker-compose build"
-                    bat "docker tag testb-player ${imageName}"
+                    bat "docker-compose build" // Build Docker image using Docker Compose
+                    bat "docker tag testb-player ${imageName}" // Tag the built image
 
                     // Login to Docker Hub using environment variables for username and password
                     bat "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
@@ -68,6 +68,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
+                    // Pull and deploy the container using Docker Compose
                     bat "docker-compose pull"
                     bat "docker-compose up -d"
                 }
