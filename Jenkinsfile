@@ -65,18 +65,29 @@ pipeline {
             }
         }
 
-        // Add additional deployment or other stages here as needed
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    bat "docker-compose pull"
+                    bat "docker-compose up -d"
+                }
+            }
+        }
     }
 
     post {
         always {
+            // Always notify Slack about pipeline completion
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline execution completed!", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            // Clean up unused Docker images, containers, networks, etc.
+            bat "docker system prune -f"
             echo 'Pipeline execution completed!'
         }
         success {
-            echo 'Application deployed successfully!'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline succeeded! :tada:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
         failure {
-            echo 'Pipeline failed. Check the logs for details.'
+            slackSend(channel: SLACK_CHANNEL, message: "Pipeline failed. Check the logs! :x:", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
     }
 }
